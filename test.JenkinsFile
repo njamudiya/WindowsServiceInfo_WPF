@@ -1,0 +1,21 @@
+pipeline {
+    agent {
+        node{
+            label 'AnsibleController'
+        }
+    }   
+ stages {
+    stage ('Execute'){
+        steps {
+             sh '''#!/bin/bash
+             echo ${WORKSPACE} is workspace
+             whoami         
+             ansible-inventory --list -i "${WORKSPACE}/ansible-demos-excercises/Inventory/WebAppInventory.yml"
+             #ansible-playbook "${WORKSPACE}/ansible-demos-excercises/Playbooks/playbook-pingtest.yml" -i "${WORKSPACE}/ansible-demos-excercises/Inventory/inventory.yml" -c local
+             #ansible-playbook "${WORKSPACE}/ansible-demos-excercises/Playbooks/playbook-copyfile.yml" -i "${WORKSPACE}/ansible-demos-excercises/Inventory/inventory.yml" -c local
+             ansible-playbook "${WORKSPACE}/ansible-demos-excercises/Playbooks/WebApp.yml" -i "${WORKSPACE}/ansible-demos-excercises/Inventory/WebAppInventory.yml" -c local
+             '''
+            }
+    } 
+ }  
+}
